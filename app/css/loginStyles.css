@@ -1,0 +1,63 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    /*只是主轴上剩下的空间的排序，主轴上如果没有剩余空间就没有了，
+    当一行上的所有伸缩项目都不能伸缩或可伸缩但是已经达到其最大长度时，这一属性才会对多余的空间进行分配。*/
+    justify-content: center;
+    align-content: center;
+    background: deepskyblue;
+
+}
+div {
+    display: block;
+}
+
+img.imageSize {
+    width: 200px;
+    height: auto;
+    margin-top: 40px;
+    align-self: center;
+
+}
+
+
+.logo {
+    background-image: url("http://oi2hmstfa.bkt.clouddn.com/googlelogo.png");
+    background-size: 112px 36px;
+}
+
+p.form-header{
+    font: 40px bold;
+    text-align:center;
+    align-self: center;
+
+}
+div.signup{
+   display: flex;
+    justify-content: flex-end;
+margin-top: 30px
+}
+
+a.marginleft{
+    margin-left: 20px;
+}
+
+
+form{
+    align-self: center;
+
+}
+label{ width:80px; display: inline-block;}
+input{
+    margin-bottom: 20px;
+    border-radius:5px;
+    padding:3px;
+}
+input[type=submit]{
+    font: 18px bold;
+    width: 120px;
+    color:white;
+    margin-top:15px;
+    margin-left:85px;
+    background-color: tomato;
+}

@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+    <title>User Login and Sessions</title>
+    <link rel="stylesheet" type="text/css"
+          href="/app/css/loginStyles.css" />
+</head>
+<body>
+
+<div class="wrapper">
+    <img src="/app/images/googlelogo.png" class="imageSize">
+    <p class="form-header">Login</p>
+    <form method="POST">
+        <label>Username:</label>
+        <input type="text" name="username"><br>
+        <label>Password:</label>
+        <input type="password" name="password"><br>
+        <input type="submit" value="Login">
+    </form>
+    <div class="signup">
+        <a href="/signup">Sign Up</a>
+        <a href="/auth/google" class="marginleft">login with google</a>
+    </div>
+
+    <hr><%= msg %>
+</div>
+
+
+</body>
+</html>
