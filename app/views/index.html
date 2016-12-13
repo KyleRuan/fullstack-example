@@ -3,16 +3,38 @@
 <head>
   <title>User Login and Sessions</title>
   <link rel="stylesheet" type="text/css"
-        href="/app/css/styles.css" />
+        href="/app/css/homePageStyles.css" />
 </head>
 <body>
-<div ng-controller="myController">
-  <h2>Welcome. You are Logged In as <%= username %></h2>
-  <a href="/logout">logout</a>
-  <a href="/user">Edit User</a>
-  <p>Place Your Code Here<p>
+
+
+<div class="wrapper">
+  <header class="header">
+    <div class="username">用户：<%= username %></div>
+    <ul class="navigation">
+      <li><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><a href="#">List</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </header>
+  <article class="main">
+    <div ng-controller="myController">
+      <h2>Welcome. You are Logged In as </h2>
+
+      <p>Place Your Code Here<p>
+    </div>
+  </article>
+  <aside class="aside aside-1">Aside 1</aside>
+  <aside class="aside aside-2">Aside 2</aside>
+  <footer class="footer">
+    <a href="/logout" class="footer">logout</a>
+    <a href="/user">Edit User</a>
+  </footer>
 </div>
-<hr><%= msg %>
+
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.0-rc.2/angular.min.js"></script>
 <script src="/app/js/my_app.js"></script>
 </body>
