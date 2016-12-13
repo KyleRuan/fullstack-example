@@ -16,7 +16,7 @@ var app = express();
 var passport = require('passport');
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
-
+var socket = require('socket.io');
 // 数据库连接的管理
 var expressSession = require('express-session');
 var mongoStore = require('connect-mongo')({session:expressSession});
@@ -82,6 +82,11 @@ app.get('/auth/google/callback',
         res.redirect('/');
     });
 
-
+socket.listen(app).on('connection',function (sockets) {
+  sockets.on('message', function (msg) {
+    console.log('Message Received: ', msg);
+    sockets.broadcast.emit('message', msg);
+  });
+});
 require('./routes/routes')(app);
 app.listen(3030);
