@@ -8,7 +8,6 @@
  */
 
 var mongoose = require('mongoose');
-var User = mongoose.model('User');
 var crypto = require('crypto');
 
 /*将密码hash化*/
@@ -19,9 +18,15 @@ function hashPW(pwd) {
 
 }
 
+
+var insertSQL = 'insert into t_user(name) values("conan"),("fens.me")';
+var selectSQL = 'select * from t_user limit 10';
+var deleteSQL = 'delete from t_user';
+var updateSQL = 'update t_user set name="conan update"  where name="conan"';
 /*注册逻辑控制器*/
 exports.signup = function (req,res) {
   // 根据mongo 的model生成一个 对象
+  // 注册一个人
   var user = new User({username:req.body.username});
   user.set('email',req.body.email);
   user.set('hashed_password',hashPW(req.body.password));

@@ -1,0 +1,16 @@
+{
+  "name": "kyle ruan",
+  "description": "",
+  "main": "auth_server.js",
+  "authors": [
+    "阮凯 <bjruankai@corp.netease.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/KyleRuan/fullstack-example",
+  "private": true,
+  "dependencies": {
+    "angular": "^1.6.3",
+    "angular-resource": "^1.6.3",
+    "angular-route": "^1.6.3"
+  }
+}

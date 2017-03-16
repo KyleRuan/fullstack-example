@@ -11,22 +11,43 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
 var app = express();
-var passport = require('passport');
-var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
-var socket = require('socket.io');
-// 数据库连接的管理
-var expressSession = require('express-session');
-var mongoStore = require('connect-mongo')({session:expressSession});
-require('./models/users_model');
-var conn =mongoose.connect('mongodb://localhost/myapp');
-mongoose.Promise = require('bluebird');
+
 // set template engine
 app.engine('.html',require('ejs').__express);
 app.set('views', path.join(__dirname, 'app/views'));
 app.set('view engine', 'html');
+
+var mysql = require('mysql');
+var session = require('express-session');
+var MySQLStore = require('express-mysql-session')(session);
+
+var options = {
+  host: 'localhost',
+  port: 3306,
+  user: 'root',
+  password: 'rk65328329',
+  database: 'test'
+};
+
+var connection = mysql.createConnection(options); // or mysql.createPool(options);
+var optionsStore = {
+  host: 'localhost',
+  port: 3306,
+  user: 'root',
+  password: 'rk65328329',
+  database: 'test',
+  schema: {
+    tableName: 'user',
+    columnNames: {
+      session_id: 'custom_session_id',
+      expires: 'custom_expires_column_name',
+      data: 'custom_data_column_name'
+    }
+  }
+};
+var sessionStore = new MySQLStore(optionsStore);
 
 //中间件设置
 /*app.use(bodyParser.urlencoded({ extended: true }));
@@ -38,55 +59,28 @@ app.use(cookieParser());
 //将前端和后端分开开发,前端就直接会定位到当前文件夹为静态资源库
 app.use(express.static(path.join(__dirname)));
 
-app.use(expressSession({
-  secret: 'SECRET',
-  cookie: {maxAge:60*60*1000},
-  resave:false,
-  saveUninitialized: true,
-    store: new  mongoStore({
-      mongooseConnection: conn.connection,
-    collection: 'sessions'
-  })
+connection.connect();
+
+app.use(session({
+  key: 'session_cookie_name',
+  secret: 'session_cookie_secret',
+  store: sessionStore,
+  resave: false,
+  saveUninitialized: false
 }));
 
 
-passport.use(new GoogleStrategy({
-        clientID: '511777306919-eskth3e3qjkfac69ht7jhq7k7shcmsou.apps.googleusercontent.com',
-        clientSecret: '5628FuKahC47VXThVUBKbGvb',
-        callbackURL: "http://localhost:3030/auth/google/callback"
-    },
-    function(accessToken, refreshToken, profile, done) {
-    console.log('gooooooooooooogle');
-        User.findOrCreate({ googleId: profile.id }, function (err, user) {
-            return done(err, user);
-        });
-    }
-));
+// app.use(expressSession({
+//   secret: 'SECRET',
+//   cookie: {maxAge:60*60*1000},
+//   resave:false,
+//   saveUninitialized: true,
+//     store: new  mongoStore({
+//       mongooseConnection: mysql.connection,
+//     collection: 'sessions'
+//   })
+// }));
 
 
-
-
-app.get('/auth/google',
-    passport.authenticate('google',
-        { scope: ['https://www.googleapis.com/auth/plus.login'] }),function (req,res) {
-        console.log(req);
-    });
-
-
-app.get('/auth/google/callback',
-    passport.authenticate('google', { failureRedirect: '/' }),
-    function(req, res) {
-    console.log('...........');
-        console.log(req);
-     // c
-        res.redirect('/');
-    });
-
-socket.listen(app).on('connection',function (sockets) {
-  sockets.on('message', function (msg) {
-    console.log('Message Received: ', msg);
-    sockets.broadcast.emit('message', msg);
-  });
-});
 require('./routes/routes')(app);
 app.listen(3030);
