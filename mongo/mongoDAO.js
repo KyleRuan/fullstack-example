@@ -19,12 +19,14 @@ var connectDB = function () {
         retryMillSeconds:500
       }
   );
-
+  console.log("Connection Failed Via Client Object");
+  console.log(client);
   client.connect(url,function (err,db) {
     if (err) {
       console.log("Connection Failed Via Client Object");
       console.log(err);
     } else {
+      //
       return db;
     }
   })
