@@ -32,10 +32,6 @@ var client = new MongoClient(new Server('localhost',27017),{
 
  }
 
-//TODO: db的状态信息 stats
-
-//TODO: collection stats
-
 var deleteCollection = function (collectionName, callback) {
   if (currentDB) {
     currentDB.dropCollection(collectionName,function (err,results) {
