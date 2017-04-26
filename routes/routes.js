@@ -18,6 +18,11 @@ module.exports = function(app) {
     res.end();
   });
 
+  app.get('/mongoose',function (req,res) {
+    require('../mongo/MongooseClient');
+    res.end();
+  });
+
   app.get('/find', function(req, res){
     mongoClient.findAllItems(function (err,items) {
     });
